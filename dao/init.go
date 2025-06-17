@@ -9,7 +9,7 @@ import (
 
 var _db *gorm.DB
 
-func initDB() {
+func InitDB() {
 	dsn := conf.Conf.Mysql.Dns
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -22,4 +22,5 @@ func initDB() {
 	sqlDB.SetConnMaxIdleTime(10)
 	sqlDB.SetMaxOpenConns(100)
 	_db = db
+	migrate()
 }

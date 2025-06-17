@@ -20,10 +20,10 @@ type Mysql struct {
 }
 
 type Email struct {
-	Address   string      `yaml:"address"`
-	SmtpHost  interface{} `yaml:"smtpHost"`
-	SmtpEmail interface{} `yaml:"smtpEmail"`
-	SmtpPass  interface{} `yaml:"smtpPass"`
+	Address   string `yaml:"address"`
+	SmtpHost  string `yaml:"smtpHost"`
+	SmtpEmail string `yaml:"smtpEmail"`
+	SmtpPass  string `yaml:"smtpPass"`
 }
 
 type EncryptSecret struct {
@@ -33,10 +33,10 @@ type EncryptSecret struct {
 }
 
 type Oss struct {
-	BucketName      interface{} `yaml:"BucketName"`
-	QiNiuServer     interface{} `yaml:"QiNiuServer"`
-	AccessKeyId     interface{} `yaml:"AccessKeyId"`
-	AccessKeySecret interface{} `yaml:"AccessKeySecret"`
+	BucketName      string `yaml:"BucketName"`
+	QiNiuServer     string `yaml:"QiNiuServer"`
+	AccessKeyId     string `yaml:"AccessKeyId"`
+	AccessKeySecret string `yaml:"AccessKeySecret"`
 }
 
 type System struct {
@@ -52,8 +52,7 @@ func InitConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("读入配置文件出错:%v", err)
 	}
-	if err := viper.Unmarshal(Conf); err != nil {
+	if err := viper.Unmarshal(&Conf); err != nil { //**Config 类型,传递Conf的指针，Viper 会在内部初始化 Config 结构体，并将 Conf 指向这个新分配的内存
 		log.Fatalf("序列化失败:%v", err)
 	}
-
 }

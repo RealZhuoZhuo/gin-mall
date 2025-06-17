@@ -3,7 +3,7 @@ system:
   port : ":8000"
   domain: "mall"
 mysql:
-  dns : "root:root@tcp(127.0.0.1:3306)/go_web_toy?charset=utf8mb4&parseTime=True&loc=Local"
+  dns : "root:root@tcp(127.0.0.1:3306)/go_mall?charset=utf8mb4&parseTime=True&loc=Local"
 email:
   address: http://localhost:8080/#/vaild/email/
   smtpHost:
