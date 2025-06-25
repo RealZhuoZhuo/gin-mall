@@ -29,6 +29,7 @@ func (dao *UserDao) UserExistOrNot(userName string) bool {
 	return false
 }
 func (dao *UserDao) Create(user *model.User) error {
+	user.Avatar = "/static/imgs/default.jpg"
 	return dao.DB.Create(user).Error
 }
 func (dao *UserDao) VaildPwd(username string, pwd string) (bool, error) {
@@ -39,4 +40,7 @@ func (dao *UserDao) VaildPwd(username string, pwd string) (bool, error) {
 		return true, nil
 	}
 	return false, errors.New("密码错误")
+}
+func (dao *UserDao) UploadUserAvatar(username string, avatarPath string) error {
+	return dao.DB.Model(&model.User{}).Where("user_name = ?", username).Update("avatar", avatarPath).Error
 }

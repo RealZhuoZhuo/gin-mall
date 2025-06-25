@@ -10,5 +10,6 @@ func main() {
 	conf.InitConfig()
 	dao.InitDB()
 	r := routers.NewRouter()
-	r.Run(":8080")
+	r.Static("static", "static")
+	_ = r.Run(":8080")
 }

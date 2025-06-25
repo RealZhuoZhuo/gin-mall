@@ -6,6 +6,7 @@ import (
 	"github.com/RealZhuoZhuo/gin-mall/pkg/e"
 	"github.com/RealZhuoZhuo/gin-mall/pkg/utils"
 	"github.com/RealZhuoZhuo/gin-mall/serializer"
+	"mime/multipart"
 )
 
 type UserService struct {
@@ -94,5 +95,31 @@ func (service UserService) Login() any {
 	return serializer.TokenData{
 		User:  nil,
 		Token: token,
+	}
+}
+func (service UserService) UploadAvatar(username string, file multipart.File) any {
+	code := e.SUCCESS
+	userDao := dao.GetUserDao()
+	err, avatarPath := utils.PostUserAvatar(file)
+	if err != nil {
+		code = e.ERROR
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
+	err = userDao.UploadUserAvatar(username, avatarPath)
+	if err != nil {
+		code = e.ERROR
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
 	}
 }

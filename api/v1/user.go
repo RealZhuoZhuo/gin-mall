@@ -17,8 +17,8 @@ func UserRegisterHandler() gin.HandlerFunc {
 				Error:  err.Error(),
 			})
 		}
-		res := userService.Register()
-		c.JSON(200, res)
+		ret := userService.Register()
+		c.JSON(200, ret)
 	}
 }
 func UserLoginHandler() gin.HandlerFunc {
@@ -32,7 +32,25 @@ func UserLoginHandler() gin.HandlerFunc {
 				Error:  err.Error(),
 			})
 		}
-		res := userService.Login()
-		c.JSON(200, res)
+		ret := userService.Login()
+		c.JSON(200, ret)
+	}
+}
+func UploadAvatarHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		username := c.GetString("username")
+		userService := service.UserService{}
+		code := e.SUCCESS
+		file, _, err := c.Request.FormFile("avatar")
+		if err != nil {
+			code = e.ERROR
+			c.JSON(200, serializer.Response{
+				Status: code,
+				Msg:    e.GetMsg(500),
+				Error:  err.Error(),
+			})
+		}
+		ret := userService.UploadAvatar(username, file)
+		c.JSON(200, ret)
 	}
 }
