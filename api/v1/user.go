@@ -17,7 +17,22 @@ func UserRegisterHandler() gin.HandlerFunc {
 				Error:  err.Error(),
 			})
 		}
-		res := userService.Register(userService.UserName)
+		res := userService.Register()
+		c.JSON(200, res)
+	}
+}
+func UserLoginHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userService := service.UserService{}
+		err := c.ShouldBind(&userService)
+		if err != nil {
+			c.JSON(200, serializer.Response{
+				Status: 500,
+				Msg:    e.GetMsg(500),
+				Error:  err.Error(),
+			})
+		}
+		res := userService.Login()
 		c.JSON(200, res)
 	}
 }
